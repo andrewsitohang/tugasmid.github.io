@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnTIX | online cinema ticket booking app</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 30px">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">AnTIX</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="user.html">User</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="movie.html">Movie</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="theaters.html">Theaters</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" href="transaction.html">Transaction</a>
+                </li>
+              </ul>
+          </div>
+        </div>
+    </nav>
+    <div id="app">
+        <div class="container">
+            <div class="py-5 text-center">
+              <h2>AnTIX</h2>
+              <p class="lead">online cinema ticket booking app</p>
+            </div>
+            <h4 class="mb-3" id="form">Transaction Information</h4>
+                <form class="needs-validation" style="margin-bottom: 10%;" novalidate>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="movie_id" class="col-form-label">Movie ID</label>
+                            <input  v-model="movie_id" type="number" class="form-control" id="movie_id" placeholder="enter the movie id" value="" required>
+                            <div class="invalid-feedback">
+                            Valid movie ID name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="theater_id" class="col-form-label">Theater ID</label>
+                            <input  v-model="theater_id" type="number" class="form-control" id="theater_id" placeholder="enter the theater id" value="" required>
+                            <div class="invalid-feedback">
+                            Valid transaction ID is required.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="seats_number" class="col-form-label">Seat Number</label>
+                            <input  v-model="seats_number" type="number" class="form-control" id="seats_number" placeholder="enter the seat number" value="" required>
+                            <div class="invalid-feedback">
+                            Valid seats number is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="price" class="col-form-label">Price</label>
+                            <input  v-model="price" type="number" class="form-control" id="price" placeholder="enter the price for movie" value="" required>
+                            <div class="invalid-feedback">
+                            Valid price is required.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="create_by" class="col-form-label">Create By</label>
+                        <input  v-model="create_by" type="text" class="form-control" id="create_by" placeholder="enter your username" value="" required>
+                        <div class="invalid-feedback">
+                            Valid username is required.
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <button v-if="!editMode && !deleteMode" v-on:click="createTransaction" class="btn btn-primary btn-md btn-primary d-grid  mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Submit Data</a></button>
+                    <button v-if="editMode" v-on:click="updateTransaction" class="btn btn-warning btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-dark">Update Data</a></button>
+                    <button v-if="deleteMode" v-on:click="deleteTransaction" class="btn btn-danger btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Delete Data</a></button>              
+                </form>
+                <div class="col-md-12">
+                    <h4 class="mb-3" id="table">Transaction Data</h4>
+                    <table class="table">
+                        <thead class="table-info text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Movie ID</th>
+                                <th>Theater ID</th>
+                                <th>Seat Number</th>
+                                <th>Price</th>
+                                <th>Create_By</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr v-for="transaction in transactions">
+                                <td>{{ transaction.id }}</td>
+                                <td>{{ transaction.movie_id }}</td>
+                                <td>{{ transaction.theater_id }}</td>
+                                <td>{{ transaction.seats_number }}</td>
+                                <td>{{ transaction.price }}</td>
+                                <td>{{ transaction.create_by }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(transaction)"><a href="#form" class="text-decoration-none text-dark">Update</a></button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(transaction)"><a href="#form" class="text-decoration-none text-white">Delete</a></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                <div v-if="message" class="alert alert-success" role="alert">
+                    {{ message }}
+                </div>
+            </div>
+            <button class="btn btn-md btn-primary d-grid mx-auto" v-on:click="resetForm()"><a href="#form" class="text-decoration-none text-white">Create New transaction</a></button>
+        </div>
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">&copy; Andrew Sitohang</p>
+        </footer>
+    </div>
+    
+
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        var app = new Vue ({
+            el: '#app',
+            data: {
+                errors: [],
+                message: null,
+                transactions:[],
+                transactionIdEdit: null,
+                transactionIdDelete: null,
+                editMode: false,
+                deleteMode: false,
+                movie_id: '',
+                theater_id: '',
+                seats_number: '',
+                price: '',
+                create_by: '',
+            },
+            mounted: function() {
+                this.getTransaction();
+            },
+            methods: {
+                getTransaction() {
+                    axios.get('https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/transaction')
+                        .then(response => {
+                            this.transactions = response.data;
+                            console.log(response);
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        });
+                },
+                createTransaction: function(){
+                    axios.post('https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/transaction', {
+                        movie_id: this.movie_id,
+                        theater_id: this.theater_id,
+                        seats_number: this.seats_number,
+                        price: this.price,
+                        create_by: this.create_by,
+                    })
+                    .then(response => {
+                            this.getTransaction();
+                            this.message = "Your data has been submitted";
+                            console.log(response);
+                    })
+                    .catch(error => {
+                            console.log(error);
+                    });
+                },
+                resetForm: function () {
+                    this.message = null;
+                    this.editMode = false;
+                    this.deleteMode = false;
+                    this.transactionIdEdit = null;
+                    this.movie_id = null;
+                    this.theater_id = null;
+                    this.seats_number = null;
+                    this.price = null;
+                    this.create_by = null;
+                },
+                getEdit: function (transaction) {
+                    this.message = null;
+                    this.editMode = true;
+                    this.deleteMode = false;
+                    this.transactionIdEdit = transaction.id;
+                    this.movie_id = transaction.movie_id;
+                    this.theater_id = transaction.theater_id;
+                    this.seats_number = transaction.seats_number;
+                    this.price = transaction.price;
+                    this.create_by = transaction.create_by;
+                },
+                getDelete: function (transaction) {
+                    this.message = null;
+                    this.deleteMode = true;
+                    this.editMode = false;
+                    this.transactionIdDelete = transaction.id;
+                    this.movie_id = transaction.movie_id;
+                    this.theater_id = transaction.theater_id;
+                    this.seats_number = transaction.seats_number;
+                    this.price = transaction.price;
+                    this.create_by = transaction.create_by;
+                },
+                updateTransaction: function () {
+                    axios.put(`https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/transaction/${this.transactionIdEdit}`, {
+                        movie_id: this.movie_id,
+                        theater_id: this.theater_id,
+                        seats_number: this.seats_number,
+                        price: this.price,
+                        create_by: this.create_by,
+                        })
+                        .then(res => {
+                            // handle success
+                            this.message = "Your data has been updated";
+                            this.getTransaction();
+                        })
+                        .catch(err => {
+                            // handle error
+                            console.log(err);
+                        })
+                },
+                // Delete transaction
+                deleteTransaction: function () {
+                    axios.delete(`https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/transaction/${this.transactionIdDelete}`)
+                        .then(res => {
+                            this.message = "Your data has been deleted";
+                            this.getTransaction();
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
+            }
+        })
+        
+    </script>
+
+
+</body>
+</html>
