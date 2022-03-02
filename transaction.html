@@ -13,125 +13,140 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 30px">
         <div class="container">
-          <a class="navbar-brand" href="index.html">AnTIX</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="user.html">User</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="movie.html">Movie</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="theaters.html">Theaters</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="transaction.html">Transaction</a>
-                </li>
-              </ul>
-          </div>
+            <a class="navbar-brand" href="index.html">AnTIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="user.html">User</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="movie.html">Movie</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="theaters.html">Theaters</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" href="transaction.html">Transaction</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
     <div id="app">
         <div class="container">
             <div class="py-5 text-center">
-              <h2>AnTIX</h2>
-              <p class="lead">online cinema ticket booking app</p>
+                <h2>AnTIX</h2>
+                <p class="lead">online cinema ticket booking app</p>
             </div>
-            <h4 class="mb-3" id="form">Transaction Information</h4>
-                <form class="needs-validation" style="margin-bottom: 10%;" novalidate>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="movie_id" class="col-form-label">Movie ID</label>
-                            <input  v-model="movie_id" type="number" class="form-control" id="movie_id" placeholder="enter the movie id" value="" required>
-                            <div class="invalid-feedback">
-                            Valid movie ID name is required.
-                            </div>
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-if="!editMode && !deleteMode">Transaction Input Data</h4>
+                            <h4 class="modal-title" v-if="editMode">Transaction Edit Data</h4>
+                            <h4 class="modal-title" v-if="deleteMode">Delete Data Data</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="theater_id" class="col-form-label">Theater ID</label>
-                            <input  v-model="theater_id" type="number" class="form-control" id="theater_id" placeholder="enter the theater id" value="" required>
-                            <div class="invalid-feedback">
-                            Valid transaction ID is required.
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="movie_id" class="col-form-label">Movie ID</label>
+                                    <input  v-model="movie_id" v-if="!deleteMode" type="number" class="form-control" id="movie_id" placeholder="enter the movie id" value="" required>
+                                    <input  v-model="movie_id" v-if="deleteMode" type="number" class="form-control" id="movie_id" placeholder="enter the movie id" value="" disabled>
+                                    <div class="invalid-feedback">
+                                        Valid movie ID name is required.
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="theater_id" class="col-form-label">Theater ID</label>
+                                    <input  v-model="theater_id" v-if="!deleteMode" type="number" class="form-control" id="theater_id" placeholder="enter the theater id" value="" required>
+                                    <input  v-model="theater_id" v-if="deleteMode" type="number" class="form-control" id="theater_id" placeholder="enter the theater id" value="" disabled>
+                                    <div class="invalid-feedback">
+                                    Valid transaction ID is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="seats_number" class="col-form-label">Seat Number</label>
+                                    <input  v-model="seats_number" v-if="!deleteMode" type="number" class="form-control" id="seats_number" placeholder="enter the seat number" value="" required>
+                                    <input  v-model="seats_number" v-if="deleteMode" type="number" class="form-control" id="seats_number" placeholder="enter the seat number" value="" disabled>
+                                    <div class="invalid-feedback">
+                                        Valid seats number is required.
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="price" class="col-form-label">Price</label>
+                                    <input  v-model="price" v-if="!deleteMode" type="number" class="form-control" id="price" placeholder="enter the price for movie" value="" required>
+                                    <input  v-model="price" v-if="deleteMode" type="number" class="form-control" id="price" placeholder="enter the price for movie" value="" disabled>
+                                    <div class="invalid-feedback">
+                                        Valid price is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="create_by" class="col-form-label">Create By</label>
+                                <input  v-model="create_by" v-if="!deleteMode" type="text" class="form-control" id="create_by" placeholder="enter your username" value="" required>
+                                <input  v-model="create_by" v-if="deleteMode" type="text" class="form-control" id="create_by" placeholder="enter your username" value="" disabled>
+                                <div class="invalid-feedback">
+                                    Valid username is required.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <hr class="mb-4">
+                                <button v-if="!editMode && !deleteMode" v-on:click="createTransaction" class="btn btn-primary btn-md btn-primary d-grid  mx-auto" type="submit" data-bs-dismiss="modal">Submit Data</button>
+                                <button v-if="editMode" v-on:click="updateTransaction" class="btn btn-warning btn-md btn-primary d-grid mx-auto" type="submit" data-bs-dismiss="modal">Update Data</button>
+                                <button v-if="deleteMode" v-on:click="deleteTransaction" class="btn btn-danger btn-md btn-primary d-grid mx-auto" type="submit" data-bs-dismiss="modal">Delete Data</button>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="seats_number" class="col-form-label">Seat Number</label>
-                            <input  v-model="seats_number" type="number" class="form-control" id="seats_number" placeholder="enter the seat number" value="" required>
-                            <div class="invalid-feedback">
-                            Valid seats number is required.
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="price" class="col-form-label">Price</label>
-                            <input  v-model="price" type="number" class="form-control" id="price" placeholder="enter the price for movie" value="" required>
-                            <div class="invalid-feedback">
-                            Valid price is required.
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="create_by" class="col-form-label">Create By</label>
-                        <input  v-model="create_by" type="text" class="form-control" id="create_by" placeholder="enter your username" value="" required>
-                        <div class="invalid-feedback">
-                            Valid username is required.
-                        </div>
-                    </div>
-                    <hr class="mb-4">
-                    <button v-if="!editMode && !deleteMode" v-on:click="createTransaction" class="btn btn-primary btn-md btn-primary d-grid  mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Submit Data</a></button>
-                    <button v-if="editMode" v-on:click="updateTransaction" class="btn btn-warning btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-dark">Update Data</a></button>
-                    <button v-if="deleteMode" v-on:click="deleteTransaction" class="btn btn-danger btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Delete Data</a></button>              
-                </form>
-                <div class="col-md-12">
-                    <h4 class="mb-3" id="table">Transaction Data</h4>
-                    <table class="table">
-                        <thead class="table-info text-center">
-                            <tr>
-                                <th>ID</th>
-                                <th>Movie ID</th>
-                                <th>Theater ID</th>
-                                <th>Seat Number</th>
-                                <th>Price</th>
-                                <th>Create_By</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr v-for="transaction in transactions">
-                                <td>{{ transaction.id }}</td>
-                                <td>{{ transaction.movie_id }}</td>
-                                <td>{{ transaction.theater_id }}</td>
-                                <td>{{ transaction.seats_number }}</td>
-                                <td>{{ transaction.price }}</td>
-                                <td>{{ transaction.create_by }}</td>
-                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(transaction)"><a href="#form" class="text-decoration-none text-dark">Update</a></button></td>
-                                <td><button class="btn btn-danger" v-on:click="getDelete(transaction)"><a href="#form" class="text-decoration-none text-white">Delete</a></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h4 class="mb-3" id="table">Transaction Data</h4>
+                <button class="btn btn-md btn-primary d-grid mx-auto m-3" v-on:click="resetForm()" data-bs-toggle="modal" data-bs-target="#myModal">Create New transaction</button>
                 <div v-if="message" class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
+                <table class="table">
+                    <thead class="table-info text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Movie ID</th>
+                            <th>Theater ID</th>
+                            <th>Seat Number</th>
+                            <th>Price</th>
+                            <th>Create_By</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr v-for="transaction in transactions">
+                            <td>{{ transaction.id }}</td>
+                            <td>{{ transaction.movie_id }}</td>
+                            <td>{{ transaction.theater_id }}</td>
+                            <td>{{ transaction.seats_number }}</td>
+                            <td>{{ transaction.price }}</td>
+                            <td>{{ transaction.create_by }}</td>
+                            <td><button class="btn btn-md btn-warning" v-on:click="getEdit(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Update</a></button></td>
+                            <td><button class="btn btn-danger" v-on:click="getDelete(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <button class="btn btn-md btn-primary d-grid mx-auto" v-on:click="resetForm()"><a href="#form" class="text-decoration-none text-white">Create New transaction</a></button>
         </div>
         <footer class="my-5 pt-5 text-muted text-center text-small">
             <p class="mb-1">&copy; Andrew Sitohang</p>
         </footer>
     </div>
     
-
-    <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
@@ -224,16 +239,13 @@
                         create_by: this.create_by,
                         })
                         .then(res => {
-                            // handle success
                             this.message = "Your data has been updated";
                             this.getTransaction();
                         })
                         .catch(err => {
-                            // handle error
                             console.log(err);
                         })
                 },
-                // Delete transaction
                 deleteTransaction: function () {
                     axios.delete(`https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/transaction/${this.transactionIdDelete}`)
                         .then(res => {
@@ -246,9 +258,7 @@
                 }
             }
         })
-        
     </script>
-
 
 </body>
 </html>

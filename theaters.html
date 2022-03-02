@@ -13,29 +13,29 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 30px">
         <div class="container">
-          <a class="navbar-brand" href="index.html">AnTIX</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="user.html">User</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="movie.html">Movie</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="theaters.html">Theaters</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="transaction.html">Transaction</a>
-                </li>
-              </ul>
-          </div>
+            <a class="navbar-brand" href="index.html">AnTIX</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="user.html">User</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="movie.html">Movie</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link active" href="theaters.html">Theaters</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="transaction.html">Transaction</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
     <div id="app">
@@ -44,79 +44,94 @@
                 <h2>AnTIX</h2>
                 <p class="lead">online cinema ticket booking app</p>
             </div>
-            <h4 class="mb-3" id="form">Theater Information</h4>
-                <form class="needs-validation" style="margin-bottom: 10%;" novalidate>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="theater" class="col-form-label">Theater Name</label>
-                            <input  v-model="theater" type="text" class="form-control" id="theater" placeholder="enter the theater name" value="" required>
-                            <div class="invalid-feedback">
-                            Valid theater name is required.
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" v-if="!editMode && !deleteMode">Theater Input Data</h4>
+                            <h4 class="modal-title" v-if="editMode">Theater Edit Data</h4>
+                            <h4 class="modal-title" v-if="deleteMode">Delete Data</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="theater" class="col-form-label">Theater Name</label>
+                                    <input  v-model="theater" v-if="!deleteMode" type="text" class="form-control" id="theater" placeholder="enter the theater name" value="" required>
+                                    <input  v-model="theater" v-if="deleteMode" type="text" class="form-control" id="theater" placeholder="enter the theater name" value="" disabled>
+                                    <div class="invalid-feedback">
+                                        Valid theater name is required.
+                                    </div>
+                                </div>                       
+                                <div class="col-md-6 mb-3">
+                                    <label class="col-form-label">Status</label>
+                                    <div class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" v-if="!deleteMode" type="radio" name="active" id="active" value="true" v-model="status">
+                                            <input class="form-check-input" v-if="deleteMode" type="radio" name="active" id="active" value="true" v-model="status" disabled>
+                                            <label class="form-check-label"  for="active">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" v-if="!deleteMode" type="radio" name="nActive" id="nActive" value="false" v-model="status">
+                                            <input class="form-check-input" v-if="deleteMode" type="radio" name="nActive" id="nActive" value="false" v-model="status" disabled>
+                                            <label class="form-check-label" for="nActive">Not Active</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>                       
-                        <div class="col-md-6 mb-3">
-                            <label class="col-form-label">Status</label>
                             <div class="mb-3">
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="active" id="active" value="true" v-model="status">
-                                    <label class="form-check-label"  for="active">Active</label>
+                                <label for="address" class="col-form-label">Address</label>
+                                <textarea  v-model="address" v-if="!deleteMode" type="text" class="form-control" id="address" placeholder="enter theater address" value="" required></textarea>
+                                <textarea  v-model="address" v-if="deleteMode" type="text" class="form-control" id="address" placeholder="enter theater address" value="" disabled></textarea>
+                                <div class="invalid-feedback">
+                                    Valid address is required.
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="nActive" id="nActive" value="false" v-model="status">
-                                    <label class="form-check-label" for="nActive">Not Active</label>
-                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <hr class="mb-4">
+                                <button v-if="!editMode && !deleteMode" v-on:click="createTheater" class="btn btn-primary btn-md btn-primary d-grid  mx-auto" type="submit" data-bs-dismiss="modal">Submit Data</button>
+                                <button v-if="editMode" v-on:click="updateTheater" class="btn btn-warning btn-md btn-primary d-grid  mx-auto" type="submit" data-bs-dismiss="modal">Update Data</button>
+                                <button v-if="deleteMode" v-on:click="deleteTheater" class="btn btn-danger btn-md btn-primary d-grid  mx-auto" type="submit" data-bs-dismiss="modal">Delete Data</button>
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="address" class="col-form-label">Address</label>
-                        <textarea  v-model="address" type="text" class="form-control" id="address" placeholder="enter theater address" value="" required></textarea>
-                        <div class="invalid-feedback">
-                            Valid address is required.
-                        </div>
-                    </div>
-                    <hr class="mb-4">
-                    <button v-if="!editMode && !deleteMode" v-on:click="createTheater" class="btn btn-primary btn-md btn-primary d-grid  mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Submit Data</a></button>
-                    <button v-if="editMode" v-on:click="updateTheater" class="btn btn-warning btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-dark">Update Data</a></button>
-                    <button v-if="deleteMode" v-on:click="deleteTheater" class="btn btn-danger btn-md btn-primary d-grid mx-auto" type="submit"><a href="#table" class="text-decoration-none text-white">Delete Data</a></button>              
-                </form>
-                <div class="col-md-12">
-                    <h4 class="mb-3" id="table">Theater Data</h4>
-                    <table class="table">
-                        <thead class="table-info text-center">
-                            <tr>
-                                <th>ID</th>
-                                <th>Theater Name</th>
-                                <th>Address</th>
-                                <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <tr v-for="theater in theaters">
-                                <td>{{ theater.id }}</td>
-                                <td>{{ theater.theater }}</td>
-                                <td>{{ theater.address }}</td>
-                                <td>{{ theater.status }}</td>
-                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(theater)"><a href="#form" class="text-decoration-none text-dark">Update</a></button></td>
-                                <td><button class="btn btn-danger" v-on:click="getDelete(theater)"><a href="#form" class="text-decoration-none text-white">Delete</a></button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <h4 class="mb-3" id="table">Theater Data</h4>
+                <button class="btn btn-md btn-primary d-grid mx-auto m-3" v-on:click="resetForm()" data-bs-toggle="modal" data-bs-target="#myModal">Create New theater</button>
                 <div v-if="message" class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
-            </div>
-            <button class="btn btn-md btn-primary d-grid mx-auto" v-on:click="resetForm()"><a href="#form" class="text-decoration-none text-white">Create New theater</a></button>
+                <table class="table">
+                    <thead class="table-info text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Theater Name</th>
+                            <th>Address</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr v-for="theater in theaters">
+                            <td>{{ theater.id }}</td>
+                            <td>{{ theater.theater }}</td>
+                            <td>{{ theater.address }}</td>
+                            <td>{{ theater.status }}</td>
+                            <td><button class="btn btn-md btn-warning" v-on:click="getEdit(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>
+                            <td><button class="btn btn-danger" v-on:click="getDelete(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>   
         </div>
         <footer class="my-5 pt-5 text-muted text-center text-small">
             <p class="mb-1">&copy; Andrew Sitohang</p>
         </footer>
     </div>
     
-
-    <!-- Axios -->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
@@ -197,16 +212,13 @@
                             status: this.status,
                         })
                         .then(res => {
-                            // handle success
                             this.message = "Your data has been updated";
                             this.getTheater();
                         })
                         .catch(err => {
-                            // handle error
                             console.log(err);
                         })
                 },
-                // Delete theater
                 deleteTheater: function () {
                     axios.delete(`https://6215d4b1c9c6ebd3ce32dbb2.mockapi.io/theaters/${this.theaterIdDelete}`)
                         .then(res => {
@@ -218,10 +230,8 @@
                         })
                 }
             }
-        })
-        
+        })  
     </script>
-
 
 </body>
 </html>
