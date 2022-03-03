@@ -93,28 +93,31 @@
                 <div v-if="message" class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
-                <table class="table">
-                    <thead class="table-info text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Thumbnail</th>
-                            <th>Description</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-for="movie in movies">
-                            <td>{{ movie.id }}</td>
-                            <td>{{ movie.title }}</td>
-                            <td><img v-bind:src="movie.thumbnail" class="img-thumbnail" /></td>
-                            <td>{{ movie.description }}</td>
-                            <td><button class="btn btn-md btn-warning" v-on:click="getEdit(movie)" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>
-                            <td><button class="btn btn-danger" v-on:click="getDelete(movie)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive-lg">
+                    <table class="table">
+                        <thead class="table-info text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Thumbnail</th>
+                                <th>Description</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr v-for="movie in movies">
+                                <td>{{ movie.id }}</td>
+                                <td>{{ movie.title }}</td>
+                                <td><img v-bind:src="movie.thumbnail" class="img-thumbnail" /></td>
+                                <td>{{ movie.description }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(movie)" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(movie)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
             </div>
         </div>
         <footer class="my-5 pt-5 text-muted text-center text-small">

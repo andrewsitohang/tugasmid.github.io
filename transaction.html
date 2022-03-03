@@ -114,32 +114,34 @@
                 <div v-if="message" class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
-                <table class="table">
-                    <thead class="table-info text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Movie ID</th>
-                            <th>Theater ID</th>
-                            <th>Seat Number</th>
-                            <th>Price</th>
-                            <th>Create_By</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-for="transaction in transactions">
-                            <td>{{ transaction.id }}</td>
-                            <td>{{ transaction.movie_id }}</td>
-                            <td>{{ transaction.theater_id }}</td>
-                            <td>{{ transaction.seats_number }}</td>
-                            <td>{{ transaction.price }}</td>
-                            <td>{{ transaction.create_by }}</td>
-                            <td><button class="btn btn-md btn-warning" v-on:click="getEdit(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Update</a></button></td>
-                            <td><button class="btn btn-danger" v-on:click="getDelete(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive-lg">
+                    <table class="table">
+                        <thead class="table-info text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Movie ID</th>
+                                <th>Theater ID</th>
+                                <th>Seat Number</th>
+                                <th>Price</th>
+                                <th>Create_By</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr v-for="transaction in transactions">
+                                <td>{{ transaction.id }}</td>
+                                <td>{{ transaction.movie_id }}</td>
+                                <td>{{ transaction.theater_id }}</td>
+                                <td>{{ transaction.seats_number }}</td>
+                                <td>{{ transaction.price }}</td>
+                                <td>{{ transaction.create_by }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Update</a></button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(transaction)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <footer class="my-5 pt-5 text-muted text-center text-small">

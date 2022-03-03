@@ -103,28 +103,30 @@
                 <div v-if="message" class="alert alert-success" role="alert">
                     {{ message }}
                 </div>
-                <table class="table">
-                    <thead class="table-info text-center">
-                        <tr>
-                            <th>ID</th>
-                            <th>Theater Name</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-center">
-                        <tr v-for="theater in theaters">
-                            <td>{{ theater.id }}</td>
-                            <td>{{ theater.theater }}</td>
-                            <td>{{ theater.address }}</td>
-                            <td>{{ theater.status }}</td>
-                            <td><button class="btn btn-md btn-warning" v-on:click="getEdit(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>
-                            <td><button class="btn btn-danger" v-on:click="getDelete(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive-lg">
+                    <table class="table">
+                        <thead class="table-info text-center">
+                            <tr>
+                                <th>ID</th>
+                                <th>Theater Name</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr v-for="theater in theaters">
+                                <td>{{ theater.id }}</td>
+                                <td>{{ theater.theater }}</td>
+                                <td>{{ theater.address }}</td>
+                                <td>{{ theater.status }}</td>
+                                <td><button class="btn btn-md btn-warning" v-on:click="getEdit(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Update</button></td>
+                                <td><button class="btn btn-danger" v-on:click="getDelete(theater)" data-bs-toggle="modal" data-bs-target="#myModal">Delete</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
             </div>   
         </div>
         <footer class="my-5 pt-5 text-muted text-center text-small">
